@@ -1,8 +1,8 @@
-import UsersModel from "../model/Users.js";
+import Users from "../model/Users.js";
 
 export const getAllUsers = async () => {
   try {
-    const allUsers = await UsersModel.find({})
+    const allUsers = await Users.find({})
     return allUsers
   } catch (err) {
     err
@@ -11,7 +11,7 @@ export const getAllUsers = async () => {
 
 export const getUser = async (id) => {
   try {
-    const findedUser = await UsersModel.findById(id)
+    const findedUser = await Users.findById(id)
     return findedUser
   } catch (err) {
     err
@@ -25,7 +25,7 @@ export const createNewUser = async (newUser) => {
     createdAt: today,
     updatedAt: today
   }
-  const createdUser = await UsersModel.create(userToInsert)
+  const createdUser = await Users.create(userToInsert)
   return createdUser
 }
 
@@ -35,14 +35,14 @@ export const updateOneUser = async (id, changes) => {
     ...changes,
     updatedAt: today
   }
-  await UsersModel.findByIdAndUpdate(id, changesToInsert)
+  await Users.findByIdAndUpdate(id, changesToInsert)
   const updatedUser = await getUser(id)
   return updatedUser
 }
 
 export const deleteOneUser = async (id) => {
   try {
-    const deletedUser = await UsersModel.deleteOne({ _id: id })
+    const deletedUser = await Users.deleteOne({ _id: id })
     return deletedUser
   } catch (err) {
     err
