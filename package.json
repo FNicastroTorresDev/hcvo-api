@@ -2,12 +2,12 @@
   "name": "hcvo-api",
   "version": "1.0.0",
   "description": "Server to HCVO Project.",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && rm -fdr dist && mkdir dist && cp -R node_modules src app.js dist",
+    "build": "npm install && rm -fdr dist && mkdir -p dist && cp -R node_modules src app.js dist",
     "dev": "nodemon app.js"
   },
   "keywords": [],
