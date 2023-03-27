@@ -1,5 +1,4 @@
 import { Router } from 'express'
-// import { getUsers, createUsers } from '../controllers/users.controllers.js'
 import { 
   getUsers, 
   createUsers, 
