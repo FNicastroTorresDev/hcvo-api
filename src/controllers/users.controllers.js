@@ -33,7 +33,7 @@ export const createUsers = async (req, res) => {
   }
   try {
     const createdUser = await createNewUser(newUser)
-    res.status(201).send({ status: "OK", data: createdUser })
+    res.status(201).send({ status: "OK", message: `El usuario ${body.username} ha sido creado.` })
   } catch (error) {
     res.status(500).json({
       message: 'Ha ocurrido un error.'
