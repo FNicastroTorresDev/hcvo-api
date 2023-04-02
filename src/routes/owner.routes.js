@@ -1,13 +1,19 @@
 import { Router } from 'express'
-import { getOwner, getOneOwner, createOwner, updateOneOwner, deleteOneOwner } from '../controllers/owner.controllers.js'
+import { 
+  getOwners, 
+  getOneOwner, 
+  createOwner, 
+  updateOwner, 
+  deleteOwner 
+} from '../controllers/owner.controllers.js'
 
 const router = Router()
   
 router
-  .get('/', getOwner)
+  .get('/', getOwners)
   .get('/:ownerId', getOneOwner)
   .post('/', createOwner)
-  .patch('/:ownerId', updateOneOwner)
-  .delete('/:ownerId', deleteOneOwner)
+  .patch('/:ownerId', updateOwner)
+  .delete('/:ownerId', deleteOwner)
 
 export default router

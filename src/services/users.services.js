@@ -1,9 +1,14 @@
 import users from "../model/users.js";
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (limit, from) => {
   try {
-    const allUsers = await users.find({})
-    return allUsers
+    const data = await Promise.all([
+      users.find({})
+        .skip(from)
+        .limit(limit),
+      users.count()
+    ])
+    return data
   } catch (err) {
     err
   }
@@ -35,7 +40,7 @@ export const updateOneUser = async (id, changes) => {
     ...changes,
     updatedAt: today
   }
-  await Users.findByIdAndUpdate(id, changesToInsert)
+  await users.findByIdAndUpdate(id, changesToInsert)
   const updatedUser = await getUser(id)
   return updatedUser
 }

@@ -1,6 +1,4 @@
-// Crear un modelo/esquemad de usuario
-import mongoose from "mongoose";
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const UsersSchema = new Schema({
   username: {
@@ -23,6 +21,4 @@ const UsersSchema = new Schema({
   }
 })
 
-// const UsersModel = mongoose.model('users', UsersSchema)
-
-export default mongoose.model('users', UsersSchema)
+export default model('users', UsersSchema)

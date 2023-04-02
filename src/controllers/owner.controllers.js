@@ -1,22 +1,77 @@
-export const getOwner = (req, res) => {
-  res.json('Obtuviste el dueño.')
+import {
+  getAllOwners,
+  getOwner,
+  createNewOwner,
+  updateOneOwner,
+  deleteOneOwner
+} from "../services/owner.services.js"
+
+export const getOwners = async (req, res) => {
+  const { limit = 10, from = 0} = req.query
+  const [ owners, total ] = await getAllOwners(limit, from)
+  res.status(201).json({ 
+    message: "Dueños retornados exitosamente:",
+    total: total,
+    data: owners 
+  })
 } 
 
-export const getOneOwner = (req, res) => {
+export const getOneOwner = async (req, res) => {
   const {ownerId} = req.params
-  res.json(`Obtuviste el dueño con id ${ownerId}.`)
+  const owner = await getOwner(ownerId)
+  if (owner) {
+    return res.status(201).json({
+      message: 'Dueño retornado exitosamente:',
+      data: owner
+    })
+  }
+  res.status(404).send({ 
+    message: `No se encontró ningún/a dueño/a con el id ${ownerId}.` })
 }
 
-export const createOwner = (req, res) => {
-  res.json('Creaste un dueño.')
+export const createOwner = async (req, res) => {
+  const { body } = req
+  if (
+    !body.lastname ||
+    !body.firstname ||
+    !body.phoneNumbers
+  ) {
+    return res.status(400).json({ message: 'Faltan campos requeridos.' })
+  }
+  const newOwner = {
+    lastname: body.lastname,
+    firstname: body.firstname,
+    phoneNumbers: body.phoneNumbers
+  }
+  try {
+    const createdOwner = await createNewOwner(newOwner)
+    return res.status(201).json({ message: 'Dato guardado con éxito.', data: createdOwner })
+  } catch (error) {
+    return res.status(400).json({
+      message: 'Ha ocurrido un error.',
+      fields: {
+        lastname: error.errors?.lastname?.message,
+        firstname: error.errors?.firstname?.message,
+        phoneNumbers: error.errors?.phoneNumbers?.message
+      }
+    })
+  }
 }
 
-export const updateOneOwner = (req, res) => {
-  const {ownerId} = req.params
-  res.json(`Actualizaste el dueño con id ${ownerId}.`)
+export const updateOwner = async (req, res) => {
+  const { body, params: {ownerId} } = req
+  if (!ownerId) {
+    return
+  }
+  const updatedOwner = await updateOneOwner(ownerId, body)
+  res.status(201).send({ status: "OK", data: updatedOwner })
 } 
 
-export const deleteOneOwner = (req, res) => {
-  const {ownerId} = req.params
-  res.json(`Eliminaste el dueño con id ${ownerId}.`)
+export const deleteOwner = async (req, res) => {
+  const { ownerId } = req.params
+  if (!ownerId) {
+    return
+  }
+  const deletedOwner = await deleteOneOwner(ownerId)
+  res.status(201).send({ status: "OK", data: deletedOwner })
 }
