@@ -42,17 +42,19 @@ In this project, you can run the following scripts:
 
 ```
 hcvo-api
-├── public
-│   └── index.html
 └── src
     ├── controllers
-    ├── database
-    ├── models
+    ├── db
+    ├── helpers
+    ├── middlewares
+    ├── model
     ├── routes
+    ├── services
     ├── server.js
+├── .env
 ├── .gitignore
-├── index.js
-├── package-lock.json
+├── app.js
 ├── package.json
+├── package-lock.json
 ├── README.md
 ```
