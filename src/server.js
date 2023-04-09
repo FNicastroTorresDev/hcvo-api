@@ -1,5 +1,11 @@
 import express from 'express'
-import { userRoutes, ownerRoutes } from './routes/index.js'
+import { 
+  userRoutes, 
+  ownerRoutes, 
+  loginRoutes,
+  petRoutes,
+  medicalDataRoutes
+} from './routes/index.js'
 import cors from 'cors'
 import { dbConnection } from './db/config.js'
 
@@ -21,8 +27,11 @@ async connectionDb() {
     this.app.use(cors())
   }
   routes() {
+    this.app.use('/api/login', loginRoutes)
     this.app.use('/api/users', userRoutes)
     this.app.use('/api/owner', ownerRoutes)
+    this.app.use('/api/pet', petRoutes)
+    this.app.use('/api/medicalData', medicalDataRoutes)
   }
   listen(port) {
     this.app.listen(port, () => {

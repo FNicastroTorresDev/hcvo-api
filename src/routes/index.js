@@ -1,2 +1,5 @@
 export { default as userRoutes } from './users.routes.js'
+export { default as loginRoutes } from './login.routes.js'
 export { default as ownerRoutes } from './owner.routes.js'
+export { default as petRoutes } from  './pet.routes.js'
+export { default as medicalDataRoutes } from './petMedicalData.routes.js'
