@@ -6,7 +6,7 @@ import {
   deleteOneUser 
 } from "../services/users.services.js"
 import { encryptPassword } from "../helpers/encryptPasword.js"
-import { validateUsername } from "../helpers/users.validation.js"
+import { validateUsername } from "../db/db.validations.js"
 
 export const getUsers = async (req, res) => {
   const { limit = 10, from = 0 } = req.query
@@ -39,13 +39,15 @@ export const createUsers = async (req, res) => {
     !body.password ||
     !body.fullName
   ) {
-    return res.status(400).send({ status: "FAILED", data: "Faltan datos." })
+    return res.status(400).send({ message: "Faltan datos."})
   }
 
   const usernameExist = await validateUsername(body.username)
 
-  if (usernameExist) {
-    return res.status(400).json({ message: "El email ya está registrado." })
+  if (usernameExist === 'TRUE') {
+    return res.status(400).send({ 
+      message: 'El usuario ya existe en la base de datos.' 
+    })
   }
 
   const hash = encryptPassword(body.password)

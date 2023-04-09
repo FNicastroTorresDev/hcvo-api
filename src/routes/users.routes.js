@@ -6,6 +6,7 @@ import {
   deleteUsers,
   getOneUser
  } from '../controllers/users.controllers.js'
+ import { validateToken } from '../middlewares/validateToken.js'
 
 export const router = Router()
 

@@ -1,4 +1,4 @@
-import owner from "../model/owner.js";
+import owner from "../models/owner.js";
 
 export const getAllOwners = async (limit, from) => {
   try {
@@ -40,14 +40,18 @@ export const updateOneOwner = async (id, changes) => {
     ...changes,
     updatedAt: today
   }
-  await owner.findByIdAndUpdate(id, changesToInsert)
-  const updatedOwner = await getOwner(id)
-  return updatedOwner
+  try {
+    await owner.findByIdAndUpdate(id, changesToInsert)
+    const updatedOwner = await getOwner(id)
+    return updatedOwner
+  } catch (err) {
+    err
+  }
 }
 
 export const deleteOneOwner = async (id) => {
   try {
-    const deletedOwner = await owner.deleteOne({ _id: id })
+    const deletedOwner = await owner.findById(id)
     return deletedOwner
   } catch (err) {
     err

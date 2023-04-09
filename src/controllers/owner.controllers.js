@@ -1,3 +1,4 @@
+import { validateDNI } from "../db/db.validations.js"
 import {
   getAllOwners,
   getOwner,
@@ -8,12 +9,16 @@ import {
 
 export const getOwners = async (req, res) => {
   const { limit = 10, from = 0} = req.query
-  const [ owners, total ] = await getAllOwners(limit, from)
-  res.status(201).json({ 
-    message: "Dueños retornados exitosamente:",
-    total: total,
-    data: owners 
-  })
+  try {
+    const [ owners, total ] = await getAllOwners(limit, from)
+    res.status(201).json({ 
+      message: "Dueños retornados exitosamente:",
+      total: total,
+      data: owners 
+    })
+  } catch (err) {
+    err
+  }
 } 
 
 export const getOneOwner = async (req, res) => {
@@ -32,17 +37,27 @@ export const getOneOwner = async (req, res) => {
 export const createOwner = async (req, res) => {
   const { body } = req
   if (
+    !body.ownerDNI ||
     !body.lastname ||
     !body.firstname ||
     !body.phoneNumbers
   ) {
     return res.status(400).json({ message: 'Faltan campos requeridos.' })
   }
+
+  if (validateDNI(body.ownerDNI) === 'TRUE') {
+    return res.status(400).send({
+      message: 'El DNI ya está registrado en la base de datos.'
+    })
+  }
+
   const newOwner = {
+    ownerDNI: body.ownerDNI,
     lastname: body.lastname,
     firstname: body.firstname,
     phoneNumbers: body.phoneNumbers
   }
+
   try {
     const createdOwner = await createNewOwner(newOwner)
     return res.status(201).json({ message: 'Dato guardado con éxito.', data: createdOwner })
@@ -63,8 +78,14 @@ export const updateOwner = async (req, res) => {
   if (!ownerId) {
     return
   }
-  const updatedOwner = await updateOneOwner(ownerId, body)
-  res.status(201).send({ status: "OK", data: updatedOwner })
+  try {
+    const updatedOwner = await updateOneOwner(ownerId, body)
+    res.status(201).send({ 
+      message: "Dueño actualizado con éxito.", 
+      data: updatedOwner })
+  } catch (error) {
+    return error
+  }
 } 
 
 export const deleteOwner = async (req, res) => {
@@ -72,6 +93,11 @@ export const deleteOwner = async (req, res) => {
   if (!ownerId) {
     return
   }
-  const deletedOwner = await deleteOneOwner(ownerId)
-  res.status(201).send({ status: "OK", data: deletedOwner })
+  
+  try {
+    const deletedOwner = await deleteOneOwner(ownerId)
+    res.status(201).send({ status: "OK", data: deletedOwner })
+  } catch (error) {
+    return error
+  }
 }
