@@ -90,8 +90,11 @@ export const updateOwner = async (req, res) => {
 
 export const deleteOwner = async (req, res) => {
   const { ownerId } = req.params
+  
   if (!ownerId) {
-    return
+    return res.status(400).send({
+      message: 'Petición sin id.'
+    })
   }
   
   try {

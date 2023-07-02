@@ -4,7 +4,8 @@ import {
   ownerRoutes, 
   loginRoutes,
   petRoutes,
-  medicalDataRoutes
+  medicalDataRoutes,
+  queryHistoryRoutes
 } from './routes/index.js'
 import cors from 'cors'
 import { dbConnection } from './db/config.js'
@@ -18,21 +19,24 @@ export class Server {
     this.connectionDb()
   }
   // métodos
-async connectionDb() {
-  await dbConnection()
-}
+  async connectionDb() {
+    await dbConnection()
+  }
 
   middlewares() {
     this.app.use(express.json())
     this.app.use(cors())
   }
+
   routes() {
     this.app.use('/api/login', loginRoutes)
     this.app.use('/api/users', userRoutes)
     this.app.use('/api/owner', ownerRoutes)
     this.app.use('/api/pet', petRoutes)
-    this.app.use('/api/medicalData', medicalDataRoutes)
+    this.app.use('/api/medical-data', medicalDataRoutes)
+    this.app.use('/api/query-history', queryHistoryRoutes)
   }
+  
   listen(port) {
     this.app.listen(port, () => {
       console.log(`🚀 Servidor en puerto ${port}`)

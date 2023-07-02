@@ -14,6 +14,6 @@ router
   .get('/:petId', getPet)
   .post('/', createPet)
   .patch('/:petId', updatePet)
-  .delete('/:ownerId', deletePet)
+  .delete('/:petId', deletePet)
 
 export default router
