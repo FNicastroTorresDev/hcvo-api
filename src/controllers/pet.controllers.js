@@ -1,5 +1,6 @@
 import { validateDNI } from '../db/db.validations.js'
 import addPetToOwner from '../helpers/addPetToOwner.js'
+import getOwnerNamePhones from '../helpers/getOwnerNamePhones.js'
 import {
   getAllPets,
   getOnePet,
@@ -26,10 +27,11 @@ export const getPet = async (req, res) => {
   const { petId } = req.params
   try {
     const pet = await getOnePet(petId)
+    const owner = await getOwnerNamePhones(pet.ownerDNI)
     if (pet) {
       return res.status(201).send({
-        message: 'Mascota encontrada:',
-        data: pet
+        pet: pet,
+        owner: owner
       })
     }
   } catch (err) {
@@ -60,8 +62,8 @@ export const createPet = async (req, res) => {
   const newPet = {
     name: body.name,
     specie: body.specie,
-    ownerDNI: body.ownerDNI,
     sex: body?.sex,
+    ownerDNI: body.ownerDNI,
     derivedBy: body?.derivedBy
   }
 
@@ -115,7 +117,7 @@ export const deletePet = async (req, res) => {
 
   try {
     const deletedPet = await deleteOnePet(petId)
-    res.status(201).send({
+    return res.status(201).send({
       message: 'Mascota eliminada con éxito.',
       data: deletedPet
     })

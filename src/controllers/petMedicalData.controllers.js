@@ -1,4 +1,4 @@
-import { validatePetId } from '../db/db.validations.js'
+import { validatePetId, validatePetIdData } from '../db/db.validations.js'
 import {
   getAllPetData,
   getOnePetData,
@@ -50,6 +50,12 @@ export const createMedicalData = async (req, res) => {
   if (await validatePetId(body.idPet) != 'TRUE') {
     return res.status(400).send({
       message: 'El id de mascota no existe.'
+    })
+  }
+
+  if (await validatePetIdData(body.idPet) == 'TRUE') {
+    return res.status(400).send({
+      message: 'La mascota ya tiene una ficha médica registrada.'
     })
   }
 

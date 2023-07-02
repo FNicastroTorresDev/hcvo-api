@@ -15,7 +15,7 @@ export const getUsers = async (req, res) => {
     message: "Usuarios obtenidos:", 
     total: total,
     data: allUsers
-   })
+  })
 }
 
 export const getOneUser = async (req, res) => {

@@ -19,7 +19,7 @@ export const getOnePet = async (id) => {
     const findedPet = await pet.findById(id)
     return findedPet
   } catch (err) {
-    err
+    return err
   }
 }
 
@@ -49,7 +49,7 @@ export const updateOnePet = async (id, changes) => {
     const updatedPet = await getPet(id)
     return updatedPet
   } catch (err) {
-    err
+    return err
   }
 }
 

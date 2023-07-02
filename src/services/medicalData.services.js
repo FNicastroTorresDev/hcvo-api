@@ -16,7 +16,10 @@ export const getAllPetData = async (limit, from) => {
 
 export const getOnePetData = async (id) => {
   try {
-    const findedMedicalData = await petMedicalData.findById(id)
+    const findedMedicalData = await petMedicalData.findOne({ idPet: id })
+    if (!findedMedicalData) {
+      return "No se encontró ninguna ficha con ese ID."
+    }
     return findedMedicalData
   } catch (err) {
     err
