@@ -8,7 +8,7 @@ import {
 } from "../services/owner.services.js"
 
 export const getOwners = async (req, res) => {
-  const { limit = 10, from = 0} = req.query
+  const { limit = 0, from = 0} = req.query
   try {
     const [ owners, total ] = await getAllOwners(limit, from)
     res.status(201).json({ 
@@ -31,7 +31,7 @@ export const getOneOwner = async (req, res) => {
     })
   }
   res.status(404).send({ 
-    message: `No se encontró ningún/a dueño/a con el id ${ownerId}.` })
+    error: `No se encontró ningún/a dueño/a con el id ${ownerId}.` })
 }
 
 export const createOwner = async (req, res) => {
@@ -40,14 +40,14 @@ export const createOwner = async (req, res) => {
     !body.ownerDNI ||
     !body.lastname ||
     !body.firstname ||
-    !body.phoneNumbers
+    !body.phoneNumber
   ) {
-    return res.status(400).json({ message: 'Faltan campos requeridos.' })
+    return res.status(400).json({ error: 'Faltan campos requeridos.' })
   }
 
-  if (validateDNI(body.ownerDNI) === 'TRUE') {
+  if (await validateDNI(body.ownerDNI) === 'TRUE') {
     return res.status(400).send({
-      message: 'El DNI ya está registrado en la base de datos.'
+      error: 'El DNI ya está registrado en la base de datos.'
     })
   }
 
@@ -55,19 +55,19 @@ export const createOwner = async (req, res) => {
     ownerDNI: body.ownerDNI,
     lastname: body.lastname,
     firstname: body.firstname,
-    phoneNumbers: body.phoneNumbers
+    phoneNumber: body.phoneNumber
   }
 
   try {
     const createdOwner = await createNewOwner(newOwner)
-    return res.status(201).json({ message: 'Dato guardado con éxito.', data: createdOwner })
+    return res.status(201).json({ message: 'Dueño/a añadido/a.', data: createdOwner })
   } catch (error) {
     return res.status(400).json({
-      message: 'Ha ocurrido un error.',
+      error: 'Ha ocurrido un error.',
       fields: {
         lastname: error.errors?.lastname?.message,
         firstname: error.errors?.firstname?.message,
-        phoneNumbers: error.errors?.phoneNumbers?.message
+        phoneNumber: error.errors?.phoneNumber?.message
       }
     })
   }
@@ -99,7 +99,7 @@ export const deleteOwner = async (req, res) => {
   
   try {
     const deletedOwner = await deleteOneOwner(ownerId)
-    res.status(201).send({ status: "OK", data: deletedOwner })
+    res.status(201).send({ message: "Dueño/a eliminado/a.", data: deletedOwner })
   } catch (error) {
     return error
   }

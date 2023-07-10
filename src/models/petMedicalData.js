@@ -7,11 +7,11 @@ const PetMedicalDataSchema = new Schema({
   },
 
   anamnesis: {
-    type: String
+    type: Object
   },
 
   inicio: {
-    type: String
+    type: Object
   },
 
   course: {
@@ -23,7 +23,7 @@ const PetMedicalDataSchema = new Schema({
   },
 
   tratEvo: {
-    type: String
+    type: Object
   },
 
   sistGloboOcular: {
@@ -67,7 +67,7 @@ const PetMedicalDataSchema = new Schema({
   },
 
   esquema: {
-    // FALTA CREAR.
+    type: Object
   },
 
   estudiosARealizar: {
@@ -75,15 +75,15 @@ const PetMedicalDataSchema = new Schema({
   },
 
   diagnostico: {
-    type: String
+    type: Object
   },
 
   pronostico: {
-    type: String
+    type: Object
   },
 
   tratamiento: {
-    type: String
+    type: Object
   },
 
   createdAt: {

@@ -51,7 +51,7 @@ export const updateOneOwner = async (id, changes) => {
 
 export const deleteOneOwner = async (id) => {
   try {
-    const deletedOwner = await owner.findById(id)
+    const deletedOwner = await owner.findByIdAndDelete(id)
     return deletedOwner
   } catch (err) {
     err

@@ -27,8 +27,7 @@ export const getOneMedicalData = async (req, res) => {
     const data = await getOnePetData(medDataId)
     if (data) {
       return res.status(201).send({
-        message: 'Un archivo encontrado.',
-        data: data
+        data
       })
     } 
   } catch (err) {

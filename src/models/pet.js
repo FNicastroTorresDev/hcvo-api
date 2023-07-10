@@ -16,9 +16,6 @@ const PetSchema = new Schema({
     type: String,
     required: [true, 'El DNI del dueño es obligatorio.']
   },
-  ownerFullname: {
-    type: String
-  },
   derivedBy: {
     type: String
   }

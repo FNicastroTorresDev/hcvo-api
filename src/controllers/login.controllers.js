@@ -33,3 +33,28 @@ export const authentication = async (req, res) => {
     accessToken,
   })
 }
+
+export const validateToken = async (req, res) => {
+  const token = req.body.accessToken
+
+  if (!token) {
+    return res.status(401).json({
+      error: 'Acceso denegado. Sin token de acceso.'
+    })
+  }
+
+  const signature = process.env.SIGNATURE
+
+  try {
+    const data = jwt.verify(token, signature)
+    if (data) {
+      return res.status(202).json({
+        message: 'Acceso aceptado.'
+      })
+    }
+  } catch (error) {
+    return res.status(401).json({
+      error: 'Acceso denegado. Token inválido.'
+    })
+  }
+}
