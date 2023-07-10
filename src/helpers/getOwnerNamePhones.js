@@ -2,9 +2,11 @@ import owner from "../models/owner.js"
 
 const getOwnerNamePhones = async (dni) => {
   const ownerData = await owner.findOne({ ownerDNI: dni })
+  const sinDatos = ''
+
   return {
     fullname: `${ownerData.firstname} ${ownerData.lastname}`,
-    phones: `${ownerData.phoneNumbers[0]} - ${ownerData.phoneNumbers[1]}`
+    phones: `${ownerData.phoneNumber} - ${ownerData.altPhoneNumber || sinDatos}`
   }
 }
 

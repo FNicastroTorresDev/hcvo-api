@@ -10,7 +10,7 @@ import {
 } from '../services/pet.services.js'
 
 export const getPets = async (req, res) => {
-  const { limit = 10, from = 0 } = req.query
+  const { limit = 0, from = 0 } = req.query
   try {
     const [ pets, total ] = await getAllPets(limit, from)
     res.status(201).send({
@@ -49,13 +49,13 @@ export const createPet = async (req, res) => {
     !body.ownerDNI
   ) {
     return res.status(400).send({
-      message: 'Faltan campos requeridos.'
+      error: 'Faltan campos requeridos.'
     })
   }
 
   if (await validateDNI(body.ownerDNI) !== 'TRUE') {
     return res.status(400).send({
-      message: 'El DNI no está registrado en base de datos.'
+      error: 'El DNI no está registrado en base de datos.'
     })
   }
 
@@ -70,13 +70,14 @@ export const createPet = async (req, res) => {
   try {
     const createdPet = await createNewPet(newPet)
     await addPetToOwner(createdPet._id, createdPet.ownerDNI)
+    
     return res.status(201).send({
       message: 'Dato guardado con éxito.',
       data: createdPet
     })
   } catch (error) {
     return res.status(400).send({
-      message: 'Ha ocurrido un error.',
+      error: 'Ha ocurrido un error.',
       fields: {
         name: error.errors?.name?.message,
         specie: error.errors?.specie?.message,

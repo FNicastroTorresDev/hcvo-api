@@ -1,4 +1,5 @@
 import pet from '../models/pet.js'
+import { createNewPetData } from './medicalData.services.js'
 
 export const getAllPets = async (limit, from) => {
   try {
@@ -32,6 +33,7 @@ export const createNewPet = async (newPet) => {
   }
   try {
     const createdPet = await pet.create(petToInsert)
+    await createNewPetData({ idPet: createdPet._id})
     return createdPet
   } catch (err) {
     return err

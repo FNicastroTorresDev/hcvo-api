@@ -13,9 +13,12 @@ const OwnerSchema = new Schema({
     type: String,
     required: [true, 'El nombre es obligatorio.']
   },
-  phoneNumbers: {
-    type: Array,
-    required: [true, 'Debe ingresar al menos un teléfono de contacto.']
+  phoneNumber: {
+    type: String,
+    required: [true, 'Debe ingresar un teléfono de contacto.']
+  },
+  altPhoneNumber: {
+    type: String
   },
   pets: {
     type: Array

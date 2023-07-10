@@ -4,11 +4,12 @@
 // En el controlador del post del login realizar la comparación de bcrypt
 
 import { Router } from "express";
-import { authentication } from "../controllers/login.controllers.js";
+import { authentication, validateToken } from "../controllers/login.controllers.js";
 
 const router = Router()
 
 router
   .post('/', authentication)
+  .post('/auth', validateToken)
 
 export default router
