@@ -64,6 +64,7 @@ export const createPet = async (req, res) => {
     specie: body.specie,
     sex: body?.sex,
     ownerDNI: body.ownerDNI,
+    ownerLastname: body.ownerLastname,
     derivedBy: body?.derivedBy
   }
 
