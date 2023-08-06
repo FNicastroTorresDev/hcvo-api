@@ -27,7 +27,7 @@ export const getPet = async (req, res) => {
   const { petId } = req.params
   try {
     const pet = await getOnePet(petId)
-    const owner = await getOwnerNamePhones(pet.ownerDNI)
+    const owner = await getOwnerNamePhones(pet.ownerID)
     if (pet) {
       return res.status(201).send({
         pet: pet,
@@ -46,7 +46,7 @@ export const createPet = async (req, res) => {
   if (
     !body.name ||
     !body.specie ||
-    !body.ownerDNI
+    !body.ownerLastname
   ) {
     return res.status(400).send({
       error: 'Faltan campos requeridos.'
@@ -62,15 +62,15 @@ export const createPet = async (req, res) => {
   const newPet = {
     name: body.name,
     specie: body.specie,
-    sex: body?.sex,
-    ownerDNI: body.ownerDNI,
+    ownerID: body.ownerID,
     ownerLastname: body.ownerLastname,
+    sex: body?.sex,
     derivedBy: body?.derivedBy
   }
 
   try {
     const createdPet = await createNewPet(newPet)
-    await addPetToOwner(createdPet._id, createdPet.ownerDNI)
+    await addPetToOwner(createdPet._id, createdPet.ownerID)
     
     return res.status(201).send({
       message: 'Dato guardado con éxito.',

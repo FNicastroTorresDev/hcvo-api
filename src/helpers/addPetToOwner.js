@@ -1,11 +1,11 @@
 import owner from "../models/owner.js"
 import { updateOneOwner } from "../services/owner.services.js"
 
-const addPetToOwner = async (petId, dni) => {
-  const ownerToEdit = await owner.findOne({ ownerDNI: dni })
+const addPetToOwner = async (petId, ownerID) => {
+  const ownerToEdit = await owner.findById(ownerID)
   ownerToEdit.pets.push(petId)
-  const anianido = await updateOneOwner(ownerToEdit._id, ownerToEdit)
-  return anianido
+  const aniadido = await updateOneOwner(ownerToEdit._id, ownerToEdit)
+  return aniadido
 }
 
 export default addPetToOwner

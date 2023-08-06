@@ -1,4 +1,3 @@
-import { validateDNI } from "../db/db.validations.js"
 import {
   getAllOwners,
   getOwner,
@@ -37,7 +36,6 @@ export const getOneOwner = async (req, res) => {
 export const createOwner = async (req, res) => {
   const { body } = req
   if (
-    !body.ownerDNI ||
     !body.lastname ||
     !body.firstname ||
     !body.phoneNumber
@@ -45,14 +43,7 @@ export const createOwner = async (req, res) => {
     return res.status(400).json({ error: 'Faltan campos requeridos.' })
   }
 
-  if (await validateDNI(body.ownerDNI) === 'TRUE') {
-    return res.status(400).send({
-      error: 'El DNI ya está registrado en la base de datos.'
-    })
-  }
-
   const newOwner = {
-    ownerDNI: body.ownerDNI,
     lastname: body.lastname,
     firstname: body.firstname,
     phoneNumber: body.phoneNumber
