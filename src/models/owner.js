@@ -1,10 +1,6 @@
 import { model, Schema } from "mongoose";
 
 const OwnerSchema = new Schema({
-  ownerDNI: {
-    type: String,
-    required: [true, 'El DNI es obligatorio.']
-  },
   lastname: {
     type: String,
     required: [true, 'Apellido es obligatorio.']

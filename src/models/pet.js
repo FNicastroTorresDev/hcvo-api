@@ -12,9 +12,9 @@ const PetSchema = new Schema({
   sex: {
     type: String
   },
-  ownerDNI: {
+  ownerID: {
     type: String,
-    required: [true, 'El DNI del dueño es obligatorio.']
+    required: [true, 'El _id del dueño es obligatorio.']
   },
   ownerLastname: {
     type: String
